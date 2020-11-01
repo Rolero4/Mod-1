@@ -16,47 +16,51 @@ def score_time(timeStop, timeStart):
 def submit():
     user_button.destroy()
     if ' ' in username.get():
-        error= Label(root, text= "Błędna nazwa użytkownika")
-        error.grid(row=8, column=0)
+        error= Label(root, text= "Błędna nazwa użytkownika", width = 37)
+        error.grid(row=i + 5, column=0)
     else:
         fresults = open("wyniki.txt", "a")
         if fresults:
             fresults.write(username.get() + ", " + str(score) + "\n")
             fresults.close()
-            name_alert= Label(root, text= "Wynik został zapisany", bg = 'light green')
-            name_alert.grid(row=9, column=0)
+            name_alert= Label(root, text= "Wynik został zapisany", width = 37, bg = 'light green')
+            name_alert.grid(row= i + 6, column=0)
         else:
-            error_1= Label(root, text= "Błąd otwarcia pliku")
-            error_1.grid(row=9, column=0)
+            error_1= Label(root, text= "Błąd otwarcia pliku", width = 37)
+            error_1.grid(row= i + 6, column=0)
     bye()
 
 def save():    
     global username
-    u_n = Label(root, text="Wpisz nazwe uzytkownika")
-    u_n.grid(row=7, column=0)
+    u_n = Label(root, text="Wpisz nazwe uzytkownika", width = 37)
+    u_n.grid(row= i + 4, column=0)
     user_no.destroy()
     user_yes.destroy()
     username = Entry(root) 
-    username.grid(row = 8, column = 0, padx=10)
+    username.grid(row = i+5, column = 0, padx=10)
     global user_button
     user_button = Button(root, text = "Zapisz", bg= 'light blue', command = submit)
-    user_button.grid(row = 8, column = 1)
+    user_button.grid(row = i +6, column = 0)
 
 def bye():
     user_no.destroy()
     user_yes.destroy()
-    thx = Label(root, text = "Dziękujemy za grę :)" , bg= 'light blue')
-    thx.grid(row = 10 , column = 0)
-    authors = Label(root, text="Kamil Giziński\nBartosz Rolnik\nDominik Sigulski")
-    authors.grid(row=11, column = 0)
+    thx = Label(root, text = "Dziękujemy za grę :)" , bg= 'light blue', width = 30)
+    thx.grid(row = i+7 , column = 0, pady = 5)
+    authors = Label(root, text="Kamil Giziński\nBartosz Rolnik\nDominik Sigulski", width = 30)
+    authors.grid(row=i+8, column = 0)
 
-def check():
+def check(event):
+
+
+    global i
+    i = i+1
 
     guess=int(entry.get())
 
     text_alert= "Błąd. Podaj poprawną liczbę."
     info = Label(root, text = text_alert, width = 24, height= 3)
-    info.grid(row=3, column=0)
+    info.grid(row=i, column=0)
     info.destroy()
     text_alert = ' '
 
@@ -65,37 +69,39 @@ def check():
 
         if guess != randomInteger:
             if guess < randomInteger:
-                text_alert ="za mała liczba\n"                
+                text_alert = "Liczba " + entry.get()+ " jest za mała"              
             else:
-                text_alert = "za duża liczba\n"
-            info = Label(root, text = text_alert, width = 24, height= 3)
-            info.grid(row=3, column=0)
+                text_alert = "Liczba " + entry.get()+ " jest za duża"              
+            info = Label(root, text = text_alert, bg = 'light grey')
+            info.grid(row= i, column=0, padx = 20, pady=1)
         else:
             alert.destroy()
             entry.destroy()
-            check_button.destroy()
+            #check_button.destroy()
 
-            info = Label(root, text="Brawo, mój przyjacielu\n" , width = 20 , bg='light green')
-            info.grid(row= 1, column=0)
+            info = Label(root, text="Brawo, mój przyjacielu\n" ,width = 30 , height = 2,  bg='light green')
+            info.grid(row= 1, column=0, padx = 20, pady=1)
             
             timeStop = time.perf_counter()
 
             global score
             score = score_time(timeStop, timeStart)
-            score_label = Label(root, text= "Twoj wynik to: " + str(score) + "\n Chcesz zapisać wynik?")
-            score_label.grid(row=3, column=0)
+            score_label = Label(root, text= "Twoj wynik to: " + str(score) + "\n Chcesz zapisać wynik?", )
+            score_label.grid(row=i, column=0, padx = 20, pady=1)
 
             global user_no
             global user_yes
             user_yes = Button(root, text = "TAK", bg= 'light blue', activebackground= 'blue', height = 1, width = 4, command = save)
-            user_yes.grid(row = 4, column = 0)
+            user_yes.grid(row = i+1, column = 0)
             user_no = Button(root, text = "NIE", bg= 'light blue', activebackground= 'blue' , height = 1, width = 4, command = bye)
-            user_no.grid(row = 4, column = 1)
+            user_no.grid(row = i+2, column = 0)
 
     else:
         text_alert= "Błąd. Podaj poprawną liczbę."
-        info = Label(root, text = text_alert, width = 24, height= 3)
-        info.grid(row=3, column=0)
+        info = Label(root, text = text_alert, bg = 'light grey')
+        info.grid(row=i, column=0, padx = 20, pady=1)
+        
+    entry.delete(0,END)
 
 def show_scoreboard():
     scores('wyniki.txt')
@@ -147,15 +153,19 @@ def scores(filename):
                 i += 1
 
 root = Tk()
-root.geometry('270x300')
+root.geometry('300x500')
 root.title('Guess the number- the game')
 
+i = 2
+
 mainMenu= Menu()
-mainMenu.add_command(label= 'Scoreboard', command = show_scoreboard)
+mainMenu.add_command(label= 'Scoreboard', command = show_scoreboard)    
+
 
 root.config(menu= mainMenu)
 
-alert = Label(root, text= "Wpisz liczbe od 1 do 100")
+
+alert = Label(root, text= "Wpisz liczbe od 1 do 100", width = 37, bg= "light blue")
 alert.grid(row=0, column=0)
 
 randomInteger = randint(1, 100)
@@ -163,10 +173,11 @@ randomInteger = randint(1, 100)
 timeStart = time.perf_counter()
 
 entry = Entry(root)
-entry.grid(row = 1, column = 0, padx=10)
+entry.grid(row = 1, column = 0, padx=10, pady = 5)
 
-check_button = Button(root, text = "Sprawdz", activebackground= 'blue', bg= 'light blue', command = check)
-check_button.grid(row = 1, column = 1)
+root.bind('<Return>', check)
+
+
  
 
 root.mainloop()
