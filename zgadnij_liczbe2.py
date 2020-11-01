@@ -5,12 +5,7 @@ import time
 import sys
 import os
 
-def errorNumber():
-    Błąd= Label(root, text= "Błąd. Podaj poprawną liczbę.")
-    Błąd.grid(row=3, column=0)
-
 def score_time(timeStop, timeStart):
-    global timeDifference
     timeDifference = round(1000 * (timeStop - timeStart))
     if timeDifference <= 1000000:
         return 1000000 - timeDifference
@@ -58,15 +53,22 @@ def bye():
 def check():
 
     guess=int(entry.get())
+
+    text_alert= "Błąd. Podaj poprawną liczbę."
+    info = Label(root, text = text_alert, width = 24, height= 3)
+    info.grid(row=3, column=0)
+    info.destroy()
     text_alert = ' '
 
+
     if guess >= 1 and guess <= 100:
+
         if guess != randomInteger:
             if guess < randomInteger:
-                text_alert ="za mała liczba\n"
+                text_alert ="za mała liczba\n"                
             else:
                 text_alert = "za duża liczba\n"
-            info = Label(root, text = text_alert)
+            info = Label(root, text = text_alert, width = 24, height= 3)
             info.grid(row=3, column=0)
         else:
             alert.destroy()
@@ -91,7 +93,9 @@ def check():
             user_no.grid(row = 4, column = 1)
 
     else:
-        errorNumber()
+        text_alert= "Błąd. Podaj poprawną liczbę."
+        info = Label(root, text = text_alert, width = 24, height= 3)
+        info.grid(row=3, column=0)
 
 def show_scoreboard():
     scores('wyniki.txt')
@@ -163,6 +167,7 @@ entry.grid(row = 1, column = 0, padx=10)
 
 check_button = Button(root, text = "Sprawdz", activebackground= 'blue', bg= 'light blue', command = check)
 check_button.grid(row = 1, column = 1)
+ 
 
 root.mainloop()
 
