@@ -41,9 +41,7 @@ def score_time(timeStop, timeStart):
 
 def submit():
     global name_alert
-    if w ==1 :
-        user_button.destroy()
-        username.destroy()
+
 
     if ' ' in username.get():
         error= Label(root, text= "Błędna nazwa użytkownika", width = 30)
@@ -62,6 +60,7 @@ def submit():
 
 def save():    
     global username
+    global u_n
     u_n = Label(root, text="Wpisz nazwe uzytkownika", width = 30)
     u_n.grid(row= 6, column=0, padx=10)
     user_no.destroy()
@@ -80,6 +79,11 @@ def bye():
     user_no.destroy()
     user_yes.destroy()
     name_alert.destroy()
+    global w
+    if w == 1:
+        user_button.destroy()
+        username.destroy()
+        u_n.destroy()
     global thx
     thx = Label(root, text = "Dziękujemy za grę :)" , bg= 'light blue', width = 30)
     thx.grid(row = 0 , column = 0, padx = 10)
@@ -140,7 +144,7 @@ def check(event):
             global score
             score = score_time(timeStop, timeStart)
             global score_label
-            score_label = Label(root, text= "Twoj wynik to: " + str(score) + "\n Chcesz zapisać wynik?", )
+            score_label = Label(root, text= "Twoj wynik to: " + str(score) + "\n Chcesz zapisać wynik?", width =30 )
             score_label.grid(row=2, column=0, padx = 20, pady=1)
 
             global user_no
