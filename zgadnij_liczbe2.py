@@ -19,6 +19,9 @@ def play():
     global randomInteger
     randomInteger = randint(1, 100)
 
+    global p
+    p=1
+
     global timeStart
     timeStart = time.perf_counter()
 
@@ -81,13 +84,7 @@ def bye():
 
 def check(event):
 
-    global info
-    global limit_label
-
-    limit_label = Label(root, text = " ", width = 24, height= 3)
-    limit_label.grid(row=2, column=0)
-
-
+    global info 
     guess=int(entry.get())
 
     info = Label(root, text = " ", width = 24, height= 3)
@@ -95,22 +92,26 @@ def check(event):
     info.destroy()
     text_alert = ' '
 
-
+    if h_o_l == True:
+        highest = 100
+        lowest = 1
+        h_o_l == False
+        
 
 
     if guess >= 1 and guess <= 100:
         if guess != randomInteger:
-            if guess < randomInteger <=lowest:
+            if guess < randomInteger >=lowest:
                 text_alert = "Liczba " + entry.get()+ " jest za mała"
                 lowest = guess +1
-            elif guess > randomInteger >= highest:
+            elif guess > randomInteger <= highest:
                 text_alert = "Liczba " + entry.get()+ " jest za duża"
                 highest = guess - 1 
-            limit_label = Label(root, text = "Liczba jest miedzy: "+ str(lowest) + ", a" + str(highest) , width = 37, height= 3)
-            limit_label.grid(row=2, column=0)
-            info = Label(root, text = text_alert, bg = 'light grey')
-            info.grid(row= 3, column=0, padx = 20, pady=1)
 
+            info = Label(root, text = text_alert, bg = 'light grey')
+            info.grid(row= 2, column=0, padx = 20, pady=1)
+            alert = Label(root, text= "Wpisz liczbe od "+ str(lowest)+ " do "+str(highest), width = 37, bg= "light blue")
+            alert.grid(row=0, column=0)
 
         else:
             alert.destroy()
@@ -130,9 +131,9 @@ def check(event):
             global user_no
             global user_yes
             user_yes = Button(root, text = "TAK", bg= 'light blue', activebackground= 'blue', height = 1, width = 4, command = save)
-            user_yes.grid(row = 3, column = 0)
+            user_yes.grid(row = 4, column = 0)
             user_no = Button(root, text = "NIE", bg= 'light blue', activebackground= 'blue' , height = 1, width = 4, command = bye)
-            user_no.grid(row = 3, column = 0)
+            user_no.grid(row = 4, column = 0)
 
     else:
         text_alert= "Błąd. Podaj poprawną liczbę."
@@ -221,6 +222,8 @@ def restart():
 root = Tk()
 root.geometry('300x500')
 root.title('Guess the number- the game')
+
+h_o_l = True 
 
 mainMenu= Menu()
  
